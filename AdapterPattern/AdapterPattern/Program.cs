@@ -4,6 +4,7 @@ namespace ClassAdapterPattern
 {
     class Program
     {
+        // Client
         static void Main(string[] args)
         {
             Print p = new PrintBanner("Hello");
@@ -15,6 +16,7 @@ namespace ClassAdapterPattern
     }
 
     // このクラスは既に提供されているものとします
+    // Adaptee
     public class Banner
     {
         private string str;
@@ -31,11 +33,15 @@ namespace ClassAdapterPattern
             Console.WriteLine($"*{str}*");
         }
     }
+
+    // Target
     public interface Print
     {
         void PrintWeak();
         void PrintStrong();
     }
+
+    // Adapter
     public class PrintBanner : Banner, Print
     {
         public PrintBanner(string str) : base(str) { }
