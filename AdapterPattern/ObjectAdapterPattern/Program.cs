@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ClassAdapterPattern
+namespace ObjectAdapterPattern
 {
     class Program
     {
@@ -38,24 +38,27 @@ namespace ClassAdapterPattern
     }
 
     // Target
-    public interface Print
+    public abstract class Print
     {
-        void PrintWeak();
-        void PrintStrong();
+        public abstract void PrintWeak();
+        public abstract void PrintStrong();
     }
 
     // Adapter
-    public class PrintBanner : Banner, Print
+    public class PrintBanner : Print
     {
-        public PrintBanner(string str) : base(str) { }
-        public void PrintWeak()
+        private Banner banner;
+        public PrintBanner(string str)
         {
-            this.ShowWithPattern();
+            this.banner = new Banner(str);
         }
-        public void PrintStrong()
+        public override void PrintWeak()
         {
-            this.ShowWithAster();
+            this.banner.ShowWithPattern();
+        }
+        public override void PrintStrong()
+        {
+            this.banner.ShowWithAster();
         }
     }
-
 }
