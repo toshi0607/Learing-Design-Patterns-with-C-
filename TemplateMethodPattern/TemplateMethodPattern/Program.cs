@@ -47,4 +47,36 @@ namespace TemplateMethodPattern
 
     }
 
+    public class StringDisplay : AbstractDisplay
+    {
+        private string Str { get; set; }
+        private int Width { get; set; }
+        public StringDisplay(string str)
+        {
+            this.Str = str;
+            this.Width = str.Length;
+        }
+        public override void Open()
+        {
+            this.PrintLine();
+        }
+        public override void Print()
+        {
+            Console.WriteLine($"| {this.Str} |");
+        }
+        public override void Close()
+        {
+            this.PrintLine();
+        }
+        private void PrintLine()
+        {
+            Console.WriteLine("+");
+            for(int i = 0; i < this.Width; i ++)
+            {
+                Console.WriteLine("-");
+            }
+            Console.WriteLine("+");
+        }
+
+    }
 }
