@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace TemplateMethodPattern
 {
@@ -62,7 +63,8 @@ namespace TemplateMethodPattern
         public StringDisplay(string str)
         {
             this.Str = str;
-            this.Width = str.Length;
+            Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
+            this.Width = sjisEnc.GetByteCount(str);
         }
         public override void Open()
         {
