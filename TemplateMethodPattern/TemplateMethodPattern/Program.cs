@@ -11,8 +11,26 @@ namespace TemplateMethodPattern
             AbstractDisplay d2 = new StringDisplay("Hello, Wirld");
             AbstractDisplay d3 = new StringDisplay("こんにちは！");
             d1.Display();
+            // => << HHHHH >>
             d2.Display();
+            // =>
+            // +------------+
+            // |Hello, Wirld|
+            // |Hello, Wirld|
+            // |Hello, Wirld|
+            // |Hello, Wirld|
+            // |Hello, Wirld|
+            // +------------+
             d3.Display();
+            // =>
+            // +------------+
+            // |こんにちは！|
+            // |こんにちは！|
+            // |こんにちは！|
+            // |こんにちは！|
+            // |こんにちは！|
+            // +------------+
+
             // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
             Console.ReadLine();
         }
