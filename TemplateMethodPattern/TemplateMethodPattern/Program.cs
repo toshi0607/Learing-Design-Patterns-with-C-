@@ -6,6 +6,14 @@ namespace TemplateMethodPattern
     {
         static void Main(string[] args)
         {
+            AbstractDisplay d1 = new CharDisplay('H');
+            AbstractDisplay d2 = new StringDisplay("Hello, Wirld");
+            AbstractDisplay d3 = new StringDisplay("こんにちは！");
+            d1.Display();
+            d2.Display();
+            d3.Display();
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
         }
     }
 
@@ -34,11 +42,11 @@ namespace TemplateMethodPattern
         }
         public override void Open()
         {
-            Console.WriteLine("<<");
+            Console.Write("<<");
         }
         public override void Print()
         {
-            Console.WriteLine(Ch);
+            Console.Write(Ch);
         }
         public override void Close()
         {
@@ -62,7 +70,7 @@ namespace TemplateMethodPattern
         }
         public override void Print()
         {
-            Console.WriteLine($"| {this.Str} |");
+            Console.WriteLine($"|{this.Str}|");
         }
         public override void Close()
         {
@@ -70,10 +78,10 @@ namespace TemplateMethodPattern
         }
         private void PrintLine()
         {
-            Console.WriteLine("+");
+            Console.Write("+");
             for(int i = 0; i < this.Width; i ++)
             {
-                Console.WriteLine("-");
+                Console.Write("-");
             }
             Console.WriteLine("+");
         }
