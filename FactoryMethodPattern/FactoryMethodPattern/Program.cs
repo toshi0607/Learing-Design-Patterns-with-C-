@@ -27,11 +27,13 @@ namespace FactoryMethodPattern
 
 namespace Framework
 {
+    // Product
     public abstract class Product
     {
         public abstract void Use();
     }
 
+    // Creator
     public abstract class Factory
     {
         public Product Create(string owner)
@@ -48,6 +50,8 @@ namespace Framework
 namespace IDCard
 {
     using Framework;
+
+    // ConcreteProduct
     public class IDCard : Product
     {
         public string Owner { get; private set; }
@@ -63,6 +67,7 @@ namespace IDCard
         }
     }
 
+    // ConcreteCreator
     public class IDCardFactory : Factory
     {
         private List<string> Owners { get; set; } = new List<string>();
