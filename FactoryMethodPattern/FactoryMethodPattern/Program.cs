@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FactoryMethodPattern
 {
@@ -35,8 +36,8 @@ namespace IDCard
     using Framework;
     public class IDCard : Product
     {
-        private string Owner { get; set; }
-        IDCard(string owner)
+        public string Owner { get; private set; }
+        public IDCard(string owner)
         {
             Console.WriteLine($"{owner}のカードを作ります。");
             this.Owner = owner;
@@ -45,6 +46,20 @@ namespace IDCard
         public override void Use()
         {
             Console.WriteLine($"{Owner}のカードを作り使います。");
+        }
+    }
+
+    public class IDCardFactory : Factory
+    {
+        private List<string> Owners { get; set; } = new List<string>();
+        protected override Product CreateProduct(string owner)
+        {
+            return new IDCard(owner);
+        }
+
+        protected override void RegisterProduct(Product product)
+        {
+            Owners.Add(((IDCard)product).Owner);
         }
     }
 }
