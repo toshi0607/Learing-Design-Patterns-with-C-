@@ -11,9 +11,13 @@ namespace FactoryMethodPattern
         {
             Factory factory = new IDCardFactory();
             Product card1 = factory.Create("nyanchu");
+            // => nyanchuのカードを作ります。
             Product card2 = factory.Create("toshi0607");
+            // => toshi0607のカードを作ります。
             card1.Use();
+            // => nyanchuのカードを使います。
             card2.Use();
+            // => toshi0607のカードを使います。
 
             // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
             Console.ReadLine();
