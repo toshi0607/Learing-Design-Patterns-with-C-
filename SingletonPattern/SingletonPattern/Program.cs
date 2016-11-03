@@ -10,7 +10,6 @@ namespace SingletonPattern
             // => Start.
             Singleton obj1 = Singleton.GetInstance();
             // => インスタンスを生成しました。
-            // => 
             Singleton obj2 = Singleton.GetInstance();
             if (obj1 == obj2)
             {
