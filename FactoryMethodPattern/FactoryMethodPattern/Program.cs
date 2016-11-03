@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FactoryMethodPattern
 {
@@ -31,5 +27,24 @@ namespace Framework
         }
         protected abstract Product CreateProduct(string owner);
         protected abstract void RegisterProduct(Product product);
+    }
+}
+
+namespace IDCard
+{
+    using Framework;
+    public class IDCard : Product
+    {
+        private string Owner { get; set; }
+        IDCard(string owner)
+        {
+            Console.WriteLine($"{owner}のカードを作ります。");
+            this.Owner = owner;
+        }
+
+        public override void Use()
+        {
+            Console.WriteLine($"{Owner}のカードを作り使います。");
+        }
     }
 }
