@@ -3,10 +3,20 @@ using System.Collections.Generic;
 
 namespace FactoryMethodPattern
 {
+    using Framework;
+    using IDCard;
     class Program
     {
         static void Main(string[] args)
         {
+            Factory factory = new IDCardFactory();
+            Product card1 = factory.Create("nyanchu");
+            Product card2 = factory.Create("toshi0607");
+            card1.Use();
+            card2.Use();
+
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
         }
     }
 }
@@ -45,7 +55,7 @@ namespace IDCard
 
         public override void Use()
         {
-            Console.WriteLine($"{Owner}のカードを作り使います。");
+            Console.WriteLine($"{Owner}のカードを使います。");
         }
     }
 
