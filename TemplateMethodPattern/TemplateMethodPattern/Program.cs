@@ -10,6 +10,7 @@ namespace TemplateMethodPattern
             AbstractDisplay d1 = new CharDisplay('H');
             AbstractDisplay d2 = new StringDisplay("Hello, Wirld");
             AbstractDisplay d3 = new StringDisplay("こんにちは！");
+
             d1.Display();
             // => << HHHHH >>
             d2.Display();
@@ -41,6 +42,8 @@ namespace TemplateMethodPattern
         public abstract void Open();
         public abstract void Print();
         public abstract void Close();
+        
+        // テンプレートメソッド
         public void Display()
         {
             this.Open();
@@ -52,6 +55,7 @@ namespace TemplateMethodPattern
         }
     }
 
+    // テンプレートメソッドの挙動はサブクラスでの実装に依る
     public class CharDisplay : AbstractDisplay
     {
         private char Ch { get; set; }
@@ -105,6 +109,5 @@ namespace TemplateMethodPattern
             }
             Console.WriteLine("+");
         }
-
     }
 }
