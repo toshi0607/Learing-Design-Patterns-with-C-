@@ -11,6 +11,23 @@ namespace PrototypePattern
     {
         static void Main(string[] args)
         {
+            Manager manager = new Manager();
+            UnderlinePen upen = new UnderlinePen('~');
+            MessageBox mbox = new MessageBox('*');
+            MessageBox sbox = new MessageBox('/');
+            manager.Register("strong message", upen);
+            manager.Register("warning box", mbox);
+            manager.Register("slash box", sbox);
+
+            Product p1 = manager.Create("strong message");
+            p1.Use("Hello, world");
+            Product p2 = manager.Create("warning box");
+            p2.Use("Hello, world");
+            Product p3 = manager.Create("slash box");
+            p2.Use("Hello, world");
+
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
         }
     }
 
@@ -30,7 +47,7 @@ namespace PrototypePattern
                 Console.Write(decochar);
             }
             Console.WriteLine("");
-            Console.WriteLine($"{decochar} s {decochar}");
+            Console.WriteLine($"{decochar} {s} {decochar}");
             for (int i = 0; i < length + 4; i++)
             {
                 Console.Write(decochar);
@@ -59,9 +76,9 @@ namespace PrototypePattern
         {
             Encoding sjisEnc = Encoding.GetEncoding("Shift_JIS");
             int length = sjisEnc.GetByteCount(s);
-            Console.WriteLine($"\" {s} \"");
+            Console.WriteLine($"\"{s}\"");
             Console.Write(" ");
-            for (int i = 0; i < length + 4; i++)
+            for (int i = 0; i < length; i++)
             {
                 Console.Write(ulchar);
             }
