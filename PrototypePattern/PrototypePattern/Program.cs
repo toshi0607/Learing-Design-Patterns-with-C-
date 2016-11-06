@@ -38,6 +38,7 @@ namespace PrototypePattern
         }
     }
 
+    // ConcretePrototype
     public class MessageBox : Product
     {
         private char decochar;
@@ -71,6 +72,7 @@ namespace PrototypePattern
         }
     }
 
+    // ConcretePrototype
     public class UnderlinePen : Product
     {
         private char ulchar;
@@ -103,12 +105,14 @@ namespace PrototypePattern
 
 namespace Framework
 {
+    // Prototype
     public interface Product : ICloneable
     {
         void Use(string s);
         Product CreateClone();
     }
 
+    // Client
     public class Manager
     {
         private Dictionary<string, Product> showcase = new Dictionary<string, Product>();
