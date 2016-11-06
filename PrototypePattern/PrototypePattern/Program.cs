@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PrototypePattern
 {
@@ -25,6 +23,15 @@ namespace PrototypePattern
             p2.Use("Hello, world");
             Product p3 = manager.Create("slash box");
             p3.Use("Hello, world");
+            // =>
+            //             "Hello, world"
+            //              ~~~~~~~~~~~~
+            //             ****************
+            //             *Hello, world *
+            //             ****************
+            //             ////////////////
+            //             / Hello, world /
+            //             ////////////////
 
             // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
             Console.ReadLine();
