@@ -24,7 +24,7 @@ namespace PrototypePattern
             Product p2 = manager.Create("warning box");
             p2.Use("Hello, world");
             Product p3 = manager.Create("slash box");
-            p2.Use("Hello, world");
+            p3.Use("Hello, world");
 
             // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
             Console.ReadLine();
@@ -54,7 +54,6 @@ namespace PrototypePattern
             }
             Console.WriteLine("");
         }
-
         public object Clone()
         {
             return this.MemberwiseClone();
