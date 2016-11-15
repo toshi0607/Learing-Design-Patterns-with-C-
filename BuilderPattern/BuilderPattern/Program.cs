@@ -83,4 +83,40 @@ namespace BuilderPattern
             sb.Append("==============================\n");
         }
     }
+
+    public class HTMLBuilder : Builder
+    {
+        public string Filename { get; private set; }
+        private System.IO.StreamWriter writer;
+        public override void MakeTitle(string title)
+        {
+            this.Filename = title + ".html";
+            using (System.IO.StreamWriter writer = System.IO.File.CreateText(title))
+            {
+                writer.WriteLine($"<html><head><title>{title}</title></head><body>");
+                writer.WriteLine($"<h1>{title}</h1>");
+            }
+        }
+
+        public override void MakeString(string str)
+        {
+            writer.WriteLine($"<p>{str}</p>");
+        }
+
+        public override void MakeItems(string[] items)
+        {
+            writer.WriteLine("<ul>");
+            for (int i = 0; i < items.Length; i++)
+            {
+                writer.WriteLine($"<li>{items[i]}</li>");
+            }
+            writer.WriteLine("</ul>");
+        }
+
+        public override void Close()
+        {
+            writer.WriteLine("</body></html>");
+            writer.Close();
+        }
+    }
 }
