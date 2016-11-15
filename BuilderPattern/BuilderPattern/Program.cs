@@ -10,6 +10,41 @@ namespace BuilderPattern
     {
         static void Main(string[] args)
         {
+            if (args.Length != 1)
+            {
+                Program.Usage();
+                Environment.Exit(0);
+            }
+            if (args[0].Equals("plain"))
+            {
+                TextBuilder textbuilder = new TextBuilder();
+                Director director = new Director(textbuilder);
+                director.Construct();
+                string result = textbuilder.Result;
+                Console.WriteLine(result);
+            }
+            else if (args[0].Equals("html"))
+            {
+                HTMLBuilder htmlbuilder = new HTMLBuilder();
+                Director director = new Director(htmlbuilder);
+                director.Construct();
+                string filename = htmlbuilder.Filename;
+                Console.WriteLine(filename + "が作成されました。");
+            }
+            else
+            {
+                Program.Usage();
+                Environment.Exit(0);
+            }
+
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
+        }
+
+        public static void Usage()
+        {
+            Console.WriteLine("Usage: C# Main plain  プレーンテキストで文書作成");
+            Console.WriteLine("Usage: C# Main html   htmlファイルで文書作成");
         }
     }
 
@@ -93,6 +128,7 @@ namespace BuilderPattern
             this.Filename = title + ".html";
             using (System.IO.StreamWriter writer = System.IO.File.CreateText(title))
             {
+                this.writer = writer;
                 writer.WriteLine($"<html><head><title>{title}</title></head><body>");
                 writer.WriteLine($"<h1>{title}</h1>");
             }
@@ -100,23 +136,31 @@ namespace BuilderPattern
 
         public override void MakeString(string str)
         {
-            writer.WriteLine($"<p>{str}</p>");
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.Filename, true, Encoding.GetEncoding("utf-8")))
+            {
+                writer.WriteLine($"<p>{str}</p>");
+            }
         }
 
         public override void MakeItems(string[] items)
         {
-            writer.WriteLine("<ul>");
-            for (int i = 0; i < items.Length; i++)
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.Filename, true, Encoding.GetEncoding("utf-8")))
             {
-                writer.WriteLine($"<li>{items[i]}</li>");
+                writer.WriteLine("<ul>");
+                for (int i = 0; i < items.Length; i++)
+                {
+                    writer.WriteLine($"<li>{items[i]}</li>");
+                }
+                writer.WriteLine("</ul>");
             }
-            writer.WriteLine("</ul>");
         }
 
         public override void Close()
         {
-            writer.WriteLine("</body></html>");
-            writer.Close();
+            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(this.Filename, true, Encoding.GetEncoding("utf-8")))
+            {
+                writer.WriteLine("</body></html>");
+            }
         }
     }
 }
