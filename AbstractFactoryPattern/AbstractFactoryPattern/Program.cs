@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Reflection;
 
 namespace AbstractFactoryPattern
 {
@@ -13,8 +14,8 @@ namespace AbstractFactoryPattern
             if(args.Length != 1)
             {
                 Console.WriteLine("Usage: C# Main class.name.of.ConcreteFactory");
-                Console.WriteLine("Example 1: C# Main listfactory.ListFactory");
-                Console.WriteLine("Example 2: C# Main tablefactory.TableFactory");
+                Console.WriteLine("Example 1: C# Main ListFactory.ListFactory");
+                Console.WriteLine("Example 2: C# Main TableFactory.TableFactory");
                 Environment.Exit(0);
             }
             Factory factory = Factory.GetFactory(args[0]);
@@ -44,6 +45,9 @@ namespace AbstractFactoryPattern
             page.Add(traynews);
             page.Add(traysearch);
             page.Output();
+
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
         }
     }
 }
@@ -101,7 +105,7 @@ namespace Factory
             try
             {
                 string filename = title + ".html";
-                using (StreamWriter writer = new StreamWriter(filename))
+                using (StreamWriter writer = new StreamWriter(filename, false, Encoding.UTF8))
                 {
                     writer.Write(this.MakeHTML());
                 }
@@ -109,7 +113,7 @@ namespace Factory
             }
             catch(IOException e)
             {
-                Console.Error.WriteLine(e.StackTrace);
+                Console.Error.WriteLine(e);
             }
         }
         public abstract string MakeHTML();
@@ -122,8 +126,17 @@ namespace Factory
             Factory factory = null;
             try
             {
-                Type type = Type.GetType("classname");
-                factory = (Factory)Activator.CreateInstance(type);
+                Assembly assembly = Assembly.GetExecutingAssembly();
+
+                factory = (Factory)assembly.CreateInstance(
+                  classname,
+                  false,
+                  BindingFlags.CreateInstance,
+                  null,
+                  null,
+                  null,
+                  null
+                );
             }
             catch(TypeLoadException)
             {
@@ -144,56 +157,75 @@ namespace Factory
 namespace ListFactory
 {
     using Factory;
-    public class ListLink : Link
+    
+    public class ListFactory : Factory
     {
-        public ListLink(string caption, string url) : base(caption, url) { }
-
-        public override string MakeHTML()
+        public override Link CreateLink(string caption, string url)
         {
-            return $" <li><a href=\"{url}>\"{caption}</a></li>\n";
+            return new ListLink(caption, url);
         }
-    }
 
-    public class ListTray : Tray
-    {
-        public ListTray(string caption) : base(caption) { }
-
-        public override string MakeHTML()
+        public override Tray CreateTray(string caption)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<li>\n");
-            sb.Append($"{caption}\n");
-            sb.Append("<ul>\n");
-            IEnumerator<Item> e = tray.GetEnumerator();
-            while(e.MoveNext())
-            {
-                sb.Append(e.Current);
-            }
-            sb.Append("</ul>\n");
-            sb.Append("</li>\n");
-            return sb.ToString();
+            return new ListTray(caption);
         }
-    }
 
-    public class ListPage : Page
-    {
-        public ListPage(string title, string author) : base(title, author) { }
-        public override string MakeHTML()
+        public override Page CreatePage(string title, string author)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append($"<html><head><title>{title}</title></head>\n");
-            sb.Append("<body>\n");
-            sb.Append($"<h1>{title}</h1>");
-            sb.Append("<ul>\n");
-            IEnumerator<Item> e = content.GetEnumerator();
-            while(e.MoveNext())
+            return new ListPage(title, author);
+        }
+
+        public class ListLink : Link
+        {
+            public ListLink(string caption, string url) : base(caption, url) { }
+
+            public override string MakeHTML()
             {
-                sb.Append(e.Current.MakeHTML());
+                return $"  <li><a href=\"{url}>\"{caption}</a></li>\n";
             }
-            sb.Append("</ul>\n");
-            sb.Append($"<hr><address>{author}</address>");
-            sb.Append("</body></html>\n");
-            return sb.ToString();
+        }
+
+        public class ListTray : Tray
+        {
+            public ListTray(string caption) : base(caption) { }
+
+            public override string MakeHTML()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<li>\n");
+                sb.Append($"{caption}\n");
+                sb.Append("<ul>\n");
+                IEnumerator<Item> e = tray.GetEnumerator();
+                while (e.MoveNext())
+                {
+                    sb.Append(e.Current.MakeHTML());
+                }
+                sb.Append("</ul>\n");
+                sb.Append("</li>\n");
+                return sb.ToString();
+            }
+        }
+
+        public class ListPage : Page
+        {
+            public ListPage(string title, string author) : base(title, author) { }
+            public override string MakeHTML()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"<html><head><title>{title}</title></head>\n");
+                sb.Append("<body>\n");
+                sb.Append($"<h1>{title}</h1>");
+                sb.Append("<ul>\n");
+                IEnumerator<Item> e = content.GetEnumerator();
+                while (e.MoveNext())
+                {
+                    sb.Append(e.Current.MakeHTML());
+                }
+                sb.Append("</ul>\n");
+                sb.Append($"<hr><address>{author}</address>");
+                sb.Append("</body></html>\n");
+                return sb.ToString();
+            }
         }
     }
 }
