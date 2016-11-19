@@ -229,3 +229,25 @@ namespace ListFactory
         }
     }
 }
+
+namespace TableFactory
+{
+    using Factory;
+    public class TableFactpry : Factory
+    {
+        public Link CreateLink(string caption, string url)
+        {
+            return new TableLink(caption, url);
+        }
+
+        public Tray CreateTray(string caption)
+        {
+            return new TableTray(caption);
+        }
+
+        public CreatePage(string title, string author)
+        {
+            return new Tablepage(title, author);
+        }
+    }
+}
