@@ -233,7 +233,7 @@ namespace ListFactory
 namespace TableFactory
 {
     using Factory;
-    public class TableFactpry : Factory
+    public class TableFactory : Factory
     {
         public override Link CreateLink(string caption, string url)
         {
@@ -247,7 +247,7 @@ namespace TableFactory
 
         public override Page CreatePage(string title, string author)
         {
-            return new Tablepage(title, author);
+            return new TablePage(title, author);
         }
 
         public class TableLink : Link
@@ -268,7 +268,7 @@ namespace TableFactory
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<td>");
-                sb.Append("<table width=\"100%\"> border=\"1\"><tr>");
+                sb.Append("<table width=\"100%\" border=\"1\"><tr>");
                 sb.Append($"<td bgcolor=\"#cccccc\" align=\"center\" colspan=\"{tray.Count}\"<b>{caption}</b></td>");
                 sb.Append("</tr>\n");
                 sb.Append("<tr>\n");
@@ -279,6 +279,29 @@ namespace TableFactory
                 }
                 sb.Append("<tr></table>");
                 sb.Append("</tr>");
+                return sb.ToString();
+            }
+        }
+
+        public class TablePage : Page
+        {
+            public TablePage(string title, string author) : base(title, author) { }
+
+            public override string MakeHTML()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"<html><head><title>{title}</title></head>\n");
+                sb.Append("<body>\n");
+                sb.Append($"<h1>{title}</h1>\n");
+                sb.Append("<table width=\"80%\" border=\"3\">\n");
+                IEnumerator<Item> e = content.GetEnumerator();
+                while(e.MoveNext())
+                {
+                    sb.Append($"<tr>{e.Current.MakeHTML()}</tr>");
+                }
+                sb.Append("</table>\n");
+                sb.Append($"<hr><address>{author}</address>");
+                sb.Append("</body></html>\n");
                 return sb.ToString();
             }
         }
