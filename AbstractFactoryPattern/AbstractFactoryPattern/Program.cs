@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace AbstractFactoryPattern
 {
@@ -44,5 +42,40 @@ namespace Factory
         {
             tray.Add(item);
         }
+    }
+
+    public abstract class Page
+    {
+        protected string title;
+        protected string author;
+        protected List<Item> content = new List<Item>();
+        public Page(string title, string author)
+        {
+            this.title = title;
+            this.author = author;
+        }
+
+        public void Add(Item item)
+        {
+            this.content.Add(item);
+        }
+
+        public void Output()
+        {
+            try
+            {
+                string filename = title + ".html";
+                using (StreamWriter writer = new StreamWriter(filename))
+                {
+                    writer.Write(this.MakeHTML());
+                }
+                Console.WriteLine($"{filename}を作成しました。");
+            }
+            catch(IOException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+        }
+        public abstract string MakeHTML();
     }
 }
