@@ -8,6 +8,8 @@ namespace BuilderPattern
 {
     class Program
     {
+        // Client
+        // ・Builderを利用する
         static void Main(string[] args)
         {
             if (args.Length != 1)
@@ -48,6 +50,9 @@ namespace BuilderPattern
         }
     }
 
+    // Builder
+    // ・インスタンスを作成するためのインターフェース（API）を定める
+    // ・インスタンスの各部分を作るためのメソッドを用意する
     public abstract class Builder
     {
         public abstract void MakeTitle(string title);
@@ -56,6 +61,9 @@ namespace BuilderPattern
         public abstract void Close();
     }
 
+    // Director
+    // ・Builderのインターフェース（API）を使ってインスタンスを生成する
+    // ・Builderのメソッドのみを使用する
     public class Director
     {
         private Builder builder;
@@ -84,6 +92,9 @@ namespace BuilderPattern
         }
     }
 
+    // ConcreteBuilder
+    // ・Builderのインターフェース（API）を実装する
+    // ・実際のインスタンス作成で呼び出されるメソッドを定義する
     public class TextBuilder : Builder
     {
         private StringBuilder sb = new StringBuilder();
@@ -119,6 +130,9 @@ namespace BuilderPattern
         }
     }
 
+    // ConcreteBuilder
+    // ・Builderのインターフェース（API）を実装する
+    // ・実際のインスタンス作成で呼び出されるメソッドを定義する
     public class HTMLBuilder : Builder
     {
         public string Filename { get; private set; }
