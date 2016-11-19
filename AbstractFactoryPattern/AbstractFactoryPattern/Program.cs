@@ -235,19 +235,29 @@ namespace TableFactory
     using Factory;
     public class TableFactpry : Factory
     {
-        public Link CreateLink(string caption, string url)
+        public override Link CreateLink(string caption, string url)
         {
             return new TableLink(caption, url);
         }
 
-        public Tray CreateTray(string caption)
+        public override Tray CreateTray(string caption)
         {
             return new TableTray(caption);
         }
 
-        public CreatePage(string title, string author)
+        public override Page CreatePage(string title, string author)
         {
             return new Tablepage(title, author);
+        }
+
+        public class TableLink : Link
+        {
+            public TableLink(string caption, string url) : base(caption, url) { }
+
+            public override string MakeHTML()
+            {
+                return $"<td><a href=\"{url}\">{caption}</a></td>\n";
+            }
         }
     }
 }
