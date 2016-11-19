@@ -181,7 +181,7 @@ namespace ListFactory
 
             public override string MakeHTML()
             {
-                return $"  <li><a href=\"{url}>\"{caption}</a></li>\n";
+                return $"  <li><a href=\"{url}\">{caption}</a></li>\n";
             }
         }
 
