@@ -9,6 +9,8 @@ namespace AbstractFactoryPattern
     using Factory;
     class Program
     {
+        // Client
+        // AbstractFactoryとAbstractProductのインターフェース（API）だけを使って仕事を行う
         static void Main(string[] args)
         {
             if(args.Length != 1)
@@ -54,6 +56,8 @@ namespace AbstractFactoryPattern
 
 namespace Factory
 {
+    // AbstractProduct
+    // ・AbstractFactoryによって作り出される抽象的な部品や製品のインターフェース（API）を定める
     public abstract class Item
     {
         protected string caption;
@@ -64,6 +68,7 @@ namespace Factory
         public abstract string MakeHTML();
     }
 
+    // AbstractProduct
     public abstract class Link : Item
     {
         protected string url;
@@ -73,6 +78,7 @@ namespace Factory
         }
     }
 
+    // AbstractProduct
     public abstract class Tray : Item
     {
         protected List<Item> tray = new List<Item>();
@@ -84,6 +90,7 @@ namespace Factory
         }
     }
 
+    // AbstractProduct
     public abstract class Page
     {
         protected string title;
@@ -119,6 +126,8 @@ namespace Factory
         public abstract string MakeHTML();
     }
 
+    // AbstractFactory
+    // ・AbstractProductのインスタンスを作り出すためのインターフェース（API）を定める
     public abstract class Factory
     {
         public static Factory GetFactory(string classname)
@@ -158,6 +167,7 @@ namespace ListFactory
 {
     using Factory;
     
+    // ConcreteFactory
     public class ListFactory : Factory
     {
         public override Link CreateLink(string caption, string url)
@@ -175,57 +185,63 @@ namespace ListFactory
             return new ListPage(title, author);
         }
 
-        public class ListLink : Link
-        {
-            public ListLink(string caption, string url) : base(caption, url) { }
+        
+    }
 
-            public override string MakeHTML()
-            {
-                return $"  <li><a href=\"{url}\">{caption}</a></li>\n";
-            }
+    // ConcreteProduct
+    public class ListLink : Link
+    {
+        public ListLink(string caption, string url) : base(caption, url) { }
+
+        public override string MakeHTML()
+        {
+            return $"  <li><a href=\"{url}\">{caption}</a></li>\n";
         }
+    }
 
-        public class ListTray : Tray
+
+    // ConcreteProduct
+    public class ListTray : Tray
+    {
+        public ListTray(string caption) : base(caption) { }
+
+        public override string MakeHTML()
         {
-            public ListTray(string caption) : base(caption) { }
-
-            public override string MakeHTML()
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<li>\n");
+            sb.Append($"{caption}\n");
+            sb.Append("<ul>\n");
+            IEnumerator<Item> e = tray.GetEnumerator();
+            while (e.MoveNext())
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<li>\n");
-                sb.Append($"{caption}\n");
-                sb.Append("<ul>\n");
-                IEnumerator<Item> e = tray.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    sb.Append(e.Current.MakeHTML());
-                }
-                sb.Append("</ul>\n");
-                sb.Append("</li>\n");
-                return sb.ToString();
+                sb.Append(e.Current.MakeHTML());
             }
+            sb.Append("</ul>\n");
+            sb.Append("</li>\n");
+            return sb.ToString();
         }
+    }
 
-        public class ListPage : Page
+    // ConcreteProduct
+    public class ListPage : Page
+    {
+        public ListPage(string title, string author) : base(title, author) { }
+        public override string MakeHTML()
         {
-            public ListPage(string title, string author) : base(title, author) { }
-            public override string MakeHTML()
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"<html><head><title>{title}</title></head>\n");
+            sb.Append("<body>\n");
+            sb.Append($"<h1>{title}</h1>");
+            sb.Append("<ul>\n");
+            IEnumerator<Item> e = content.GetEnumerator();
+            while (e.MoveNext())
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append($"<html><head><title>{title}</title></head>\n");
-                sb.Append("<body>\n");
-                sb.Append($"<h1>{title}</h1>");
-                sb.Append("<ul>\n");
-                IEnumerator<Item> e = content.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    sb.Append(e.Current.MakeHTML());
-                }
-                sb.Append("</ul>\n");
-                sb.Append($"<hr><address>{author}</address>");
-                sb.Append("</body></html>\n");
-                return sb.ToString();
+                sb.Append(e.Current.MakeHTML());
             }
+            sb.Append("</ul>\n");
+            sb.Append($"<hr><address>{author}</address>");
+            sb.Append("</body></html>\n");
+            return sb.ToString();
         }
     }
 }
@@ -233,6 +249,8 @@ namespace ListFactory
 namespace TableFactory
 {
     using Factory;
+
+    // Concrete Factory
     public class TableFactory : Factory
     {
         public override Link CreateLink(string caption, string url)
@@ -249,61 +267,64 @@ namespace TableFactory
         {
             return new TablePage(title, author);
         }
+    }
 
-        public class TableLink : Link
+    // ConcreteProduct
+    public class TableLink : Link
+    {
+        public TableLink(string caption, string url) : base(caption, url) { }
+
+        public override string MakeHTML()
         {
-            public TableLink(string caption, string url) : base(caption, url) { }
-
-            public override string MakeHTML()
-            {
-                return $"<td><a href=\"{url}\">{caption}</a></td>\n";
-            }
+            return $"<td><a href=\"{url}\">{caption}</a></td>\n";
         }
+    }
 
-        public class TableTray : Tray
+    // ConcreteProduct
+    public class TableTray : Tray
+    {
+        public TableTray(string caption) : base(caption) { }
+
+        public override string MakeHTML()
         {
-            public TableTray(string caption) : base(caption) { }
-
-            public override string MakeHTML()
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<td>");
+            sb.Append("<table width=\"100%\" border=\"1\"><tr>");
+            sb.Append($"<td bgcolor=\"#cccccc\" align=\"center\" colspan=\"{tray.Count}\"<b>{caption}</b></td>");
+            sb.Append("</tr>\n");
+            sb.Append("<tr>\n");
+            IEnumerator<Item> e = tray.GetEnumerator();
+            while (e.MoveNext())
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("<td>");
-                sb.Append("<table width=\"100%\" border=\"1\"><tr>");
-                sb.Append($"<td bgcolor=\"#cccccc\" align=\"center\" colspan=\"{tray.Count}\"<b>{caption}</b></td>");
-                sb.Append("</tr>\n");
-                sb.Append("<tr>\n");
-                IEnumerator<Item> e = tray.GetEnumerator();
-                while(e.MoveNext())
-                {
-                    sb.Append(e.Current.MakeHTML());
-                }
-                sb.Append("<tr></table>");
-                sb.Append("</tr>");
-                return sb.ToString();
+                sb.Append(e.Current.MakeHTML());
             }
+            sb.Append("<tr></table>");
+            sb.Append("</tr>");
+            return sb.ToString();
         }
+    }
 
-        public class TablePage : Page
+    // ConcreteProduct
+    public class TablePage : Page
+    {
+        public TablePage(string title, string author) : base(title, author) { }
+
+        public override string MakeHTML()
         {
-            public TablePage(string title, string author) : base(title, author) { }
-
-            public override string MakeHTML()
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"<html><head><title>{title}</title></head>\n");
+            sb.Append("<body>\n");
+            sb.Append($"<h1>{title}</h1>\n");
+            sb.Append("<table width=\"80%\" border=\"3\">\n");
+            IEnumerator<Item> e = content.GetEnumerator();
+            while (e.MoveNext())
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append($"<html><head><title>{title}</title></head>\n");
-                sb.Append("<body>\n");
-                sb.Append($"<h1>{title}</h1>\n");
-                sb.Append("<table width=\"80%\" border=\"3\">\n");
-                IEnumerator<Item> e = content.GetEnumerator();
-                while(e.MoveNext())
-                {
-                    sb.Append($"<tr>{e.Current.MakeHTML()}</tr>");
-                }
-                sb.Append("</table>\n");
-                sb.Append($"<hr><address>{author}</address>");
-                sb.Append("</body></html>\n");
-                return sb.ToString();
+                sb.Append($"<tr>{e.Current.MakeHTML()}</tr>");
             }
+            sb.Append("</table>\n");
+            sb.Append($"<hr><address>{author}</address>");
+            sb.Append("</body></html>\n");
+            return sb.ToString();
         }
     }
 }
