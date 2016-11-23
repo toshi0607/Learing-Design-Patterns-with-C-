@@ -14,9 +14,32 @@ namespace BridgePattern
             Display d2 = new CountDisplay(new StringDisplayImpl("Hello, World."));
             CountDisplay d3 = new CountDisplay(new StringDisplayImpl("Hello, Universe."));
             d1.Show();
+            // =>
+            // +-------------+
+            // |Hello, Japan.|
+            // +-------------+
+
             d2.Show();
+            // =>
+            // +-------------+
+            // |hello, world.|
+            // +-------------+
+
             d3.Show();
+            // =>
+            // +----------------+
+            // |Hello, Universe.|
+            // +----------------+
+
             d3.MultiDisplay(5);
+            // =>
+            // +----------------+
+            // |Hello, Universe.|
+            // |Hello, Universe.|
+            // |Hello, Universe.|
+            // |Hello, Universe.|
+            // |Hello, Universe.|
+            // +----------------+
 
             // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
             Console.ReadLine();
