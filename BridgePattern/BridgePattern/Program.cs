@@ -46,6 +46,10 @@ namespace BridgePattern
         }
     }
 
+    // Abstraction
+    // ・機能のクラス階層の最上位クラス
+    // ・Implementorを使用して基本的なメソッドを実装する
+    // ・機能クラスの階層と実装クラスの階層を橋渡しするImplementerを保持
     public class Display
     {
         private DisplayImpl impl;
@@ -77,6 +81,8 @@ namespace BridgePattern
         }
     }
     
+    // RefinedAbstraction
+    // ・Abstractionに対して機能を追加
     public class CountDisplay : Display
     {
         public CountDisplay(DisplayImpl impl) : base(impl) { }
@@ -92,6 +98,9 @@ namespace BridgePattern
         }
     }
 
+    // Implementor
+    // ・実装のクラス階層の最上位クラス
+    // ・Abstranctionのインターフェース（API）を規定する
     public abstract class DisplayImpl
     {
         public abstract void RawOpen();
@@ -99,6 +108,8 @@ namespace BridgePattern
         public abstract void RawClose();
     }
 
+    // ConcreteImplementator
+    // ・Implementatorを具体的に実装する
     public class StringDisplayImpl : DisplayImpl
     {
         private string str;
