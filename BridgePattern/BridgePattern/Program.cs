@@ -36,7 +36,7 @@ namespace BridgePattern
             impl.RawClose();
         }
 
-        public void Display()
+        public void Show()
         {
             Open();
             Print();
@@ -57,5 +57,12 @@ namespace BridgePattern
             }
             Close();
         }
+    }
+
+    public abstract class DisplayImpl
+    {
+        public abstract void RawOpen();
+        public abstract void RawPrint();
+        public abstract void RawClose();
     }
 }
