@@ -10,6 +10,16 @@ namespace BridgePattern
     {
         static void Main(string[] args)
         {
+            Display d1 = new Display(new StringDisplayImpl("Hello, Japan."));
+            Display d2 = new CountDisplay(new StringDisplayImpl("Hello, World."));
+            CountDisplay d3 = new CountDisplay(new StringDisplayImpl("Hello, Universe."));
+            d1.Show();
+            d2.Show();
+            d3.Show();
+            d3.MultiDisplay(5);
+
+            // 実行が一瞬で終わって確認できないので、キーの入力を待ちます
+            Console.ReadLine();
         }
     }
 
@@ -73,7 +83,7 @@ namespace BridgePattern
         public StringDisplayImpl(string str)
         {
             this.str = str;
-            Encoding sjisEnc = Encoding.GetEncoding("utf_8");
+            Encoding sjisEnc = Encoding.GetEncoding("shift_jis");
             this.width = sjisEnc.GetByteCount(str);
         }
 
@@ -94,7 +104,7 @@ namespace BridgePattern
 
         public void PrintLine()
         {
-            Console.WriteLine("+");
+            Console.Write("+");
             for (int i = 0; i <width; i++)
             {
                 Console.Write("-");
