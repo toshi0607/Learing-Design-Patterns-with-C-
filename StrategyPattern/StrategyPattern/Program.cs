@@ -13,7 +13,7 @@ namespace StrategyPattern
         }
     }
 
-    class Hand
+    public class Hand
     {
         public static readonly int HANDVALUE_GUU = 0; // グ ーを表す値
         public static readonly int HANDVALUE_CHO = 1; // チョキを表す値
@@ -66,5 +66,11 @@ namespace StrategyPattern
         {
             return name[handvalue];
         }
+    }
+
+    public interface Strategy
+    {
+        Hand NextHand();
+        void Study(bool win); 
     }
 }
