@@ -107,12 +107,16 @@ namespace StrategyPattern
         }
     }
 
+    // Strategy
+    // ・戦略を定めるためのインターフェース（API）を定める
     public interface Strategy
     {
         Hand NextHand();
         void Study(bool win); 
     }
 
+    // ConcreteStrategy
+    // ・Strategyのインターフェース（API）を実装する
     public class WinningStrategy : Strategy
     {
         private Random random;
@@ -138,6 +142,7 @@ namespace StrategyPattern
         }
     }
 
+    // ConcreteStrategy
     public class ProbStrategy : Strategy
     {
         private Random random;
@@ -200,6 +205,10 @@ namespace StrategyPattern
         }
     }
 
+    // Context
+    // ・Strategyを利用する
+    // ・ConcreteStrategyのインスタンスを持っていて、必要に応じて利用する
+    // ・呼び出すのはStrategyのインターフェース
     public class Player
     {
         private string name;
