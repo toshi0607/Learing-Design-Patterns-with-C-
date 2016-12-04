@@ -13,13 +13,15 @@ namespace CompositePattern
         }
     }
 
+    class FileTreatmentException : Exception { }
+
     public abstract class Entry
     {
         public string Name { get; set; }
         public int Size { get; set; }
         public virtual Entry Add(Entry entry)
         {
-            throw new NotImplementedException();
+            throw new FileTreatmentException();
         }
 
         public void PrintList()
