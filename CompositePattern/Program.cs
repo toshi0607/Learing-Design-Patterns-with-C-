@@ -48,4 +48,36 @@ namespace CompositePattern
             Console.WriteLine($"{prefix}/{this}");
         }
     }
+
+    public class Directry : Entry
+    {
+        private List<Entry> directry = new List<Entry>();
+        public Directry(string name)
+        {
+            Name = name;
+        }
+
+        public new int Size
+        {
+            get
+            {
+                int size = 0;
+                directry.ForEach(d => size += d.Size);
+                return size;
+            }
+        }
+
+        public override Entry Add(Entry entry)
+        {
+            directry.Add(entry);
+            return this;
+        }
+
+        protected override void PrintList(string prefix)
+        {
+            Console.WriteLine($"{prefix}/{this}");
+            directry.ForEach(d => PrintList($"{prefix}/{d.Name}"));
+        }
+    }
+
 }
