@@ -13,7 +13,11 @@ namespace CompositePattern
         }
     }
 
-    class FileTreatmentException : Exception { }
+    class FileTreatmentException : Exception
+    {
+        public FileTreatmentException() { }
+        public FileTreatmentException(string msg) : base(msg) { }
+    }
 
     public abstract class Entry
     {
@@ -81,5 +85,4 @@ namespace CompositePattern
             directry.ForEach(d => PrintList($"{prefix}/{d.Name}"));
         }
     }
-
 }
