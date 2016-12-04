@@ -15,8 +15,8 @@ namespace CompositePattern
 
     public abstract class Entry
     {
-        public string Name { get; }
-        public int Size { get; }
+        public string Name { get; set; }
+        public int Size { get; set; }
         public virtual Entry Add(Entry entry)
         {
             throw new NotImplementedException();
@@ -32,6 +32,20 @@ namespace CompositePattern
         public override string ToString()
         {
             return $"{Name} ({Size})";
+        }
+    }
+
+    public class File : Entry
+    {
+        public File(string name, int size)
+        {
+            Name = name;
+            Size = size;
+        }
+
+        protected override void PrintList(string prefix)
+        {
+            Console.WriteLine($"{prefix}/{this}");
         }
     }
 }
