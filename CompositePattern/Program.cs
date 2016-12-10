@@ -63,7 +63,7 @@ namespace CompositePattern
     public abstract class Entry
     {
         public string Name { get; set; }
-        public int Size { get; set; }
+        public virtual int Size { get; set; }
         public virtual Entry Add(Entry entry)
         {
             throw new FileTreatmentException();
@@ -110,7 +110,7 @@ namespace CompositePattern
             Name = name;
         }
 
-        public new int Size
+        public override int Size
         {
             get
             {
