@@ -14,6 +14,7 @@ namespace CompositePattern
         {
             try
             {
+
                 Console.WriteLine("Making root entries...");
                 Directry rootdir = new Directry("root");
                 Directry bindir = new Directry("bin");
