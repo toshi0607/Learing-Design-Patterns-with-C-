@@ -70,4 +70,33 @@ namespace DecoratorPattern
         }
     }
 
+    public class SideBorder : Border
+    {
+        private char borderChar;
+        public SideBorder(Display display, char ch) : base(display)
+        {
+            this.borderChar = ch;
+
+        }
+        public override int Columns
+        {
+            get
+            {
+                return 1 + display.Columns + 1;
+            }
+        }
+
+        public override int Rows
+        {
+            get
+            {
+                return display.Rows;
+            }
+        }
+
+        public override string GetRowText(int row)
+        {
+            return borderChar + display.GetRowText(row) + borderChar;
+        }
+    }
 }
