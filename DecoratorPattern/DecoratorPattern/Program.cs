@@ -34,6 +34,8 @@ namespace DecoratorPattern
         }
     }
 
+    // Component
+    // ・機能を追加するときの核
     public abstract class Display
     {
         public abstract int Columns { get; }
@@ -48,6 +50,8 @@ namespace DecoratorPattern
         }
     }
 
+    // ConcreteComponent
+    // ・Componentを実装
     public class StringDisplay : Display
     {
         private string str;
@@ -82,6 +86,9 @@ namespace DecoratorPattern
         }
     }
 
+    // Decorator
+    // ・Componentと同じインターフェース（API）を持つ
+    // ・飾る対象となるComponentを持つ
     public abstract class Border : Display
     {
         protected Display display;
@@ -91,6 +98,8 @@ namespace DecoratorPattern
         }
     }
 
+    // ConcreteDecorator
+    // ・Decoratorを実装
     public class SideBorder : Border
     {
         private char borderChar;
@@ -121,6 +130,8 @@ namespace DecoratorPattern
         }
     }
 
+    // ConcreteDecorator
+    // ・Decoratorを実装
     public class FullBorder : Border
     {
         public FullBorder(Display display) : base(display) { }
