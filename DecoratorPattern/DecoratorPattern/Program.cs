@@ -15,14 +15,48 @@ namespace DecoratorPattern
 
     public abstract class Display
     {
-        public abstract int Columns { get; set; }
-        public abstract int Rows { get; set; }
+        public abstract int Columns { get; }
+        public abstract int Rows { get; }
         public abstract string GetRowText(int row);
         public void Show()
         {
             for(int i = 0; i < Rows; i++)
             {
                 Console.WriteLine(GetRowText(i));
+            }
+        }
+    }
+
+    public class StringDisplay : Display
+    {
+        private string str;
+        public StringDisplay(string str)
+        {
+            this.str = str;
+        }
+        public override int Columns
+        {
+            get
+            {
+                Encoding sjisEnc = Encoding.GetEncoding("shift_jis");
+                return sjisEnc.GetByteCount(str);
+            }
+        }
+
+        public override int Rows
+        {
+            get { return 1; }
+        }
+
+        public override string GetRowText(int row)
+        {
+            if (row == 0)
+            {
+                return str;
+            }
+            else
+            {
+                return null;
             }
         }
     }
